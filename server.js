@@ -3,6 +3,18 @@ const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
 
+// loads the csv module
+const csv = require("csv-parser");
+const fs = require("fs");
+const results = [];
+
+fs.createReadStream("data.csv")
+  .pipe(csv())
+  .on("data", (data) => results.push(data))
+  .on("end", () => {
+    console.log(results);
+  });
+
 const route = require("./routes");
 const errorHandler = require("./middleware/errorHandler");
 const fileUploads = require("express-fileupload");
@@ -23,10 +35,15 @@ app.use((req, res, next) => {
 
 app.use("/", route);
 app.use(errorHandler);
-// uplaoding a file
-// app.get("/", (req, res) => {
-//   res.sendfile(__dirname + "/index.html");
-// });
+
+//set up the view engine
+app.set("view engine", "ejs");
+app.set("views", "./views");
+
+//uplaoding a file
+app.get("/", (req, res) => {
+  res.sendfile(__dirname + "/views/index.ejs");
+});
 
 const PORT = process.env.PORT || 8000;
 // connect to server

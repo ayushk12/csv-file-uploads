@@ -1,7 +1,6 @@
 const File = require("../models/CSV");
 const asyncHandler = require("../middleware/asyncHnadler");
 const ErrorResponse = require("../utils/errorResponse");
-const { fileUpload } = require("../utils/fileUploads");
 
 // @desc        get a list of all uploads files
 // @route       GET /files/getFiles
@@ -20,9 +19,12 @@ exports.newFile = asyncHandler(async (req, res, next) => {
   if (req.files) {
     const csv = req.files.file;
 
+    // checking the type of file
     if (!csv.mimetype.startsWith("text/csv")) {
       return next(new ErrorResponse("please uplaod an csv file", 400));
     }
+
+    //   path uploads
 
     csv.mv(`./uploads/${csv.name}`, async (err) => {
       if (err) {

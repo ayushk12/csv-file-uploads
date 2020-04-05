@@ -1,7 +1,7 @@
-const list = document.getElementById("list");
+// const list = document.getElementById("list");
 
-const searchInput = document.getElementById("search");
+// const searchInput = document.getElementById("search");
 
-searchInput.addEventListener("input", (event) => {
-  const value = event.target.value;
-});
+// searchInput.addEventListener("input", (event) => {
+//   const value = event.target.value;
+// });
